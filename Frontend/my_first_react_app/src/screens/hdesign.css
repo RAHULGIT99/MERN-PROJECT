@@ -1,0 +1,36 @@
+.Link{
+    font-family: 'Tahoma';
+    background-color: turquoise;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-decoration: none;
+}
+.main{
+    margin-top: 250px;
+}
+
+.design{
+    font-family: 'Tahoma';
+
+}
+.signinpage{
+    text-align: center;
+    margin-top: 250px;
+}
+.textinfo{
+    font-family: 'Tahoma';
+    margin: 5px;
+}
+.signuppage{
+    margin-top: 220px;
+}
+button{
+    height:40px;
+    width:70px;
+    font-family: 'Tahoma';
+    background-color: turquoise;
+    color:blue;
+    margin: 5px;
+    border-radius: 0px;
+}
