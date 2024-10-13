@@ -27,7 +27,7 @@ import Result from '../Frontend/my_first_react_app/src/screens/Result.js'
 var bodyparse = require('body-parser')
 app.use(bodyparse.urlencoded({extended : false}))
 var exp = require('express')
-var entered_info = require('C:\Users\rahul\OneDrive\Desktop\MY PROJECT\Frontend\my_first_react_app\src\screens\SignIn.js')
+// var entered_info = require('C:\Users\rahul\OneDrive\Desktop\MY PROJECT\Frontend\my_first_react_app\src\screens\SignIn.js')
 var app = exp()
 // var filing = require('./first.js')
 app.listen(4000,() => {
@@ -51,3 +51,4 @@ app.get("/mingle/:id/:id1/:id3",(req,res) => {
     console.log(req.params.id1)
     console.log(req.params.id3)
 })
+// "test": "echo \"Error: no test specified\" && exit 1"
