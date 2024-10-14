@@ -4,18 +4,18 @@ var cors = require('cors');
 var exp = require('express')
 var app = exp()
 app.use(cors());
-// app.use(exp.json())
-app.use(bodyparse.urlencoded({ extended: false }))
+app.use(exp.json())//this is important for the server to parse the incoming req to the json format otherwise req.body is {} 
+// app.use(bodyparse.urlencoded({ extended: false })) this is for html forms submission parsing 
 app.listen(4000, () => {
     console.log('server is running')
 })
 app.post("/", (req, res) => {
     var reqbody = req.body
     console.log(reqbody)
-    res.send(reqbody.name)
+    res.json(reqbody.name)
 })
 app.get("/", function (req, res) {
-    res.send("hello ")
+    res.send("hello")
 })
 // route paramaters
 app.get("/mingle/:id/:id1/:id3", (req, res) => {

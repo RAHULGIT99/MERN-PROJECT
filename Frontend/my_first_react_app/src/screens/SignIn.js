@@ -28,11 +28,19 @@ import './hdesign.css'
       if(x!=null && y!=null){
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        const response = await fetch("http://localhost:4000/", {
+        const responsed = await fetch("http://localhost:4000/", {
           method: "POST",
           body: JSON.stringify(info),
           headers: myHeaders,
         })
+        if(responsed.ok){
+          const responsed_new = await responsed.json();
+          console.log(responsed)
+          console.log(responsed_new)
+        }
+        else{
+          <h1>error</h1>
+        }
 
         navigation("/result");
       }
