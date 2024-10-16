@@ -24,8 +24,8 @@ import './hdesign.css'
         if(responsed.ok){
           const responsed_new = await responsed.json();
           console.log(responsed_new)
-          if(responsed_new!=="true"){
-            return <h3>Please enter correct email or password</h3>
+          if(responsed_new.reply!=="true"){
+            console.log(responsed_new.to_be_displayed)
           }
           else{
             navigation("/result")

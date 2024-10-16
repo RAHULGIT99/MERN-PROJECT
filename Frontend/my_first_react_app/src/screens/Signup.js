@@ -8,15 +8,13 @@ function Signup(){
     let name_of_cust = document.getElementById("name_of_customer").value;
     let email_of_cust = document.getElementById("email_of_customer").value;
     let age_of_cust = document.getElementById("age_of_customer").value;
-    let phone_number_of_cust = document.getElementById("phone_number_of_customer").value;
     let password_of_cust = document.getElementById("password_of_customer").value;
-    if(name_of_cust!=null && email_of_cust!=null && age_of_cust!=null && phone_number_of_cust!=null && password_of_cust!=null){
+    if(name_of_cust!=null && email_of_cust!=null && age_of_cust!=null  && password_of_cust!=null){
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       var info = {
         "Name": name_of_cust,
         "Age": age_of_cust,
-        "Phone_number": phone_number_of_cust,
         "Email": email_of_cust,
         "Password": password_of_cust
       }
@@ -28,11 +26,12 @@ function Signup(){
       if(responsed.ok){
         const responsed_new = await responsed.json();
         // console.log(responsed)
-        console.log(responsed_new)
-        if(responsed_new!=="true"){
-          return <h1>please register properly</h1>
+        console.log(responsed_new.reply)
+        if(responsed_new.reply!=="true"){
+          console.log(responsed_new.to_be_displayed)
         }
         else{
+          console.log(responsed_new.to_be_displayed)
           navigation("/signin");
         }
       }
@@ -53,11 +52,6 @@ function Signup(){
           <br/>
           <label className="textinfo">Age :</label>
           <input id="age_of_customer" type="number" placeholder="Enter age"></input>
-          <br/>
-          <br/>
-          <br/>
-          <label className="textinfo">Phone number : </label>
-          <input id="phone_number_of_customer" type="number" placeholder="Enter Contact Number"></input>
           <br/>
           <br/>
           <br/>

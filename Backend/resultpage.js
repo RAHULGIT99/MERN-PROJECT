@@ -2,6 +2,8 @@
 var mongoose = require("mongoose")
 var bodyparse = require('body-parser')
 var cors = require('cors');
+// const otpGenerator = require('otp-generator');
+// const nodemailer = require('nodemailer');
 var exp = require('express');
 var app = exp()
 app.use(cors())
@@ -14,11 +16,16 @@ mongo();
 const TodoSchema = new mongoose.Schema({
     Name: {type: String, required: true},
     Age: {type: Number, required: true},
-    Phone_number: {type: Number, required: true},
     Email: {type: String, required: true},
     Password: {type: String, required: true}
 });
 const Todo = mongoose.model('Todo', TodoSchema);
+const otpSchema = new mongoose.Schema({
+    email: String,
+    otp: String,
+    createdAt: { type: Date, expires: '5m', default: Date.now }
+});
+const OTP = mongoose.model('OTP', otpSchema);
 app.listen(4000, () => {
     console.log('server is running')
 })
@@ -28,13 +35,40 @@ app.get("/signin", function (req, res) {
 app.post("/signin", async (req, res) => {
     var reqbody = req.body
     console.log(reqbody)
-    var resu="false"
+    var response_value={}
+    var k2 = await Todo.findOne({ Password: reqbody.password });
+    var k1 = await Todo.findOne({ Email: reqbody.email });
     var k = await Todo.findOne({ Email: reqbody.email, Password: reqbody.password });
     console.log(k)
-    if(k){
-        resu="true"
+    if(k1==null){
+        response_value = {
+            "reply" : "false",
+            "to_be_displayed" : "Please enter correct email"
+        }
+        
     }
-    res.json(resu)
+    else if(k1!=null && k2==null){
+        response_value = {
+            "reply" : "false",
+            "to_be_displayed" : "Please enter correct password for your email"
+        }
+    }   
+    else{
+        if(!k1.equals(k2)){
+            response_value = {
+                "reply" : "false",
+                "to_be_displayed" : "Please enter correct password for your email"
+            }
+        }
+        else{
+            response_value = {
+                "reply" : "true",
+                "to_be_displayed" : "Logged in successfully"
+            }
+        }
+    }
+    console.log(response_value)
+    res.json(response_value)
 })
 app.post("/signup", async (req, res) => {
     try {
@@ -42,14 +76,27 @@ app.post("/signup", async (req, res) => {
         console.log(req.body)
         const todo = new Todo(req.body)
         console.log(todo)
-        await todo.save() 
-        resu="true";
+        var response_value = {}
+        var k1 = await Todo.findOne({ Email: req.body.Email });
+        if(k1==null){
+            await todo.save() 
+            response_value = {
+                "reply" : "true",
+                "to_be_displayed" : "Siggned up successfully"
+            }
+        }
+        else{
+            response_value = {
+                "reply" : "false",
+                "to_be_displayed" : "Please enter another email for registering"
+            }
+        }    
     } 
     catch (error) {
         console.log(error)
     }
     finally{
-        res.json(resu)
+        res.json(response_value)
     }
    
 })
