@@ -56,7 +56,7 @@ function Signup(){
           <br/>
           <br/>
           <br/>
-          <label className="textinfo">Dob : </label>
+          <label className="textinfo">Phone number : </label>
           <input id="phone_number_of_customer" type="number" placeholder="Enter Contact Number"></input>
           <br/>
           <br/>

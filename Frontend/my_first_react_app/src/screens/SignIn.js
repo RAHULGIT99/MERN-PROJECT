@@ -8,11 +8,12 @@ import './hdesign.css'
       let x = document.getElementById("email").value;
       let y = document.getElementById("pwd").value;
       var info = {
-        "name" : x,
-        "email" : y
+        "email" : x,
+        "password" : y
       }
       console.log("Email is: ",x,"Password is: ",y)
-      if(x!=null && y!=null){
+      var x_ty = typeof x;
+      if(x_ty=="string"){
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const responsed = await fetch("http://localhost:4000/signin", {
@@ -31,9 +32,15 @@ import './hdesign.css'
           }
         }
         else{
-          <h1>error</h1>
+          console.log("no response from the server")
         }
         
+      }
+      else{
+        console.log(x_ty)
+        if(x_ty!=="string"){
+          console.log("please enter correct email format")
+        }
       }
   }
     return (
@@ -41,11 +48,11 @@ import './hdesign.css'
           <center>
               <form className='signinpage' >
                   <label className='design'>Email : </label>
-                  <input id="email" type="text" placeholder='Enter email' className='inputs' name='emailid_of_customer'></input>
+                  <input id="email" type="email" placeholder='Enter email' className='inputs' name='emailid_of_customer' required></input>
                   <br/>
                   <br/>
                   <label className='design'>Password : </label>
-                  <input  id="pwd" type="password" placeholder='Enter password' className='inputs' name='password_of_customer'></input>
+                  <input  id="pwd" type="password" placeholder='Enter password' className='inputs' name='password_of_customer' required></input>
                   <br/>
                   <br/>
                   <button onClick={storeinfo}>Submit</button>

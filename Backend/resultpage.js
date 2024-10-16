@@ -26,9 +26,10 @@ app.get("/signin", function (req, res) {
     res.send("hello")
 })
 app.post("/signin", async (req, res) => {
-    var reqbody = req.body.name
+    var reqbody = req.body
+    console.log(reqbody)
     var resu="false"
-    var k = await Todo.findOne({reqbody})
+    var k = await Todo.findOne({ Email: reqbody.email, Password: reqbody.password });
     console.log(k)
     if(k){
         resu="true"
