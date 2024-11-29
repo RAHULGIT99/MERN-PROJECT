@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+  }
+  /* .home-container */
+   div {
+    text-align: center;
+  }
+  
+  .home-container h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .home-container p {
+    color: #555;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .home-container button {
+    background-color:#4CAF50;
+    /* background-color:#af4c65; */
+
+    color: white;
+    padding: 12px 24px; /* Adjusted padding for a more balanced button size */
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+  }
+  
+  .home-container button:hover {
+    background-color: #45a049;
+    /* background-color:#574caf; */
+
+  }
+  

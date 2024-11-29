@@ -15,7 +15,6 @@ mongo();
 //model is a way in which we will design our schema
 const TodoSchema = new mongoose.Schema({
     Name: { type: String, required: true },
-    Age: { type: Number, required: true },
     Email: { type: String, required: true },
     Password: { type: String, required: true }
 });
@@ -139,6 +138,23 @@ app.post('/generate-otp', async (req, res) => {
         res.json("Please enter another mail for registration because your currently entered mail is beign already regsitered")
     }   
 });
+
+app.post('/receive-json', async (req, res) => {
+    // Response object
+    const response_of_endpoint = {
+        "reply": "false",
+        "to_be_displayed": "Please enter another email for registering",
+        "success": "true"
+    };
+    console.log(req.body);
+    // Ensure no response is sent prematurely
+    setTimeout(() => {
+        console.log("Sending delayed response...");
+        res.json(response_of_endpoint);
+    }, 6000); // 10 seconds delay
+});
+
+
 app.post('/verify-otp', async (req, res) => {
     const email = req.body.Email; 
     const otp = req.body.Otp; 
@@ -152,7 +168,6 @@ app.post('/verify-otp', async (req, res) => {
                 console.log(req.body)
                 var complete_info_singnup = {
                     "Name" : req.body.Name,
-                    "Age" : req.body.Age ,
                     "Email" : req.body.Email,
                     "Password" : req.body.Password,
                   }
