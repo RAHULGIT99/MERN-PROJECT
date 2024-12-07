@@ -34,10 +34,10 @@ const FAQ = () => {
   return (
     <div className=" mx-auto p-8 bg-white rounded-3xl shadow-2xl w-[90vw]">
   <h2 className="text-3xl font-bold mb-10 text-center text-gray-800">
-    Rental Insights & Information
+    FAQ
   </h2>
   
-  <div className="space-y-4">
+  <div className="space-y-0">
     {faqs.map((faq, index) => (
       <div 
         key={index} 

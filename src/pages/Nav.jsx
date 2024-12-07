@@ -5,7 +5,7 @@ const Nav = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1);  // Go back to the previous route
+    navigate(-2);  // Go back to the previous route
   };
 
   return (

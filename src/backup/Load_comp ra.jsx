@@ -221,3 +221,240 @@ const Load_comp = () => {
 };
 
 export default Load_comp;
+
+
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+
+// const Compare = () => {
+//   const navigate = useNavigate();
+//   const [product1, setProduct1] = useState('');
+//   const [product2, setProduct2] = useState('');
+//   const [userQuery, setUserQuery] = useState('');
+
+//   const handleCompare = () => {
+//     // Create JSON object
+//     const requestBody = {
+//       url1: product1,
+//       url2: product2,
+//       spec: userQuery,
+//     };
+
+//     console.log(requestBody); // Log requestBody for debugging
+
+//     // Navigate to results page with JSON data
+//     navigate('/load_com', {
+//       state: requestBody,
+//     });
+//   };
+
+//   return (
+//     <div className="compare-container">
+//       <div className="compare-card">
+//         <div className="card-header">
+//           <h2>Product Comparison</h2>
+//         </div>
+
+//         <div className="card-content">
+//           <div className="input-grid">
+//             {/* Product 1 Input */}
+//             <div className="input-group">
+//               <label>Product 1</label>
+//               <textarea
+//                 placeholder="Enter first product details..."
+//                 value={product1}
+//                 onChange={(e) => setProduct1(e.target.value)}
+//               />
+//             </div>
+//             {/* Product 2 Input */}
+//             <div className="input-group">
+//               <label>Product 2</label>
+//               <textarea
+//                 placeholder="Enter second product details..."
+//                 value={product2}
+//                 onChange={(e) => setProduct2(e.target.value)}
+//               />
+//             </div>
+
+//             {/* Query Input */}
+//             <div className="input-group">
+//               <label>What would you like to compare?</label>
+//               <input
+//                 type="text"
+//                 placeholder="e.g., Compare the battery life and performance..."
+//                 value={userQuery}
+//                 onChange={(e) => setUserQuery(e.target.value)}
+//               />
+//             </div>
+
+//             {/* Compare Button */}
+//             <button
+//               className="compare-button"
+//               onClick={handleCompare}
+//               disabled={!product1 || !product2}
+//             >
+//               Compare Products
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       <style jsx>{`
+//         .compare-container {
+//           min-height: 100vh;
+//           background-color: #f5f5f5;
+//           padding: 1.5rem;
+//         }
+
+//         .compare-card {
+//           background: white;
+//           border-radius: 8px;
+//           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//           max-width: 800px;
+//           margin: 0 auto;
+//         }
+
+//         .card-header {
+//           padding: 1.5rem;
+//           border-bottom: 1px solid #eee;
+//           display: flex;
+//           justify-content: space-between;
+//           align-items: center;
+//         }
+
+//         .card-header h2 {
+//           margin: 0;
+//           font-size: 1.5rem;
+//           font-weight: 600;
+//         }
+
+//         .card-content {
+//           padding: 1.5rem;
+//         }
+
+//         .input-grid {
+//           display: grid;
+//           gap: 1.5rem;
+//         }
+
+//         .input-group {
+//           display: flex;
+//           flex-direction: column;
+//           gap: 0.5rem;
+//         }
+
+//         .input-group label {
+//           font-size: 0.875rem;
+//           font-weight: 500;
+//           color: #374151;
+//         }
+
+//         textarea, input {
+//           width: 100%;
+//           padding: 0.75rem;
+//           border: 1px solid #d1d5db;
+//           border-radius: 6px;
+//           font-size: 0.875rem;
+//         }
+
+//         textarea {
+//           height: 8rem;
+//           resize: vertical;
+//         }
+
+//         textarea:focus, input:focus {
+//           outline: none;
+//           border-color: #3b82f6;
+//           box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+//         }
+
+//         .compare-button {
+//           background-color: #3b82f6;
+//           color: white;
+//           border: none;
+//           padding: 0.75rem 1.5rem;
+//           border-radius: 6px;
+//           font-weight: 500;
+//           cursor: pointer;
+//           transition: background-color 0.2s;
+//         }
+
+//         .compare-button:hover {
+//           background-color: #2563eb;
+//         }
+
+//         .compare-button:disabled {
+//           background-color: #9ca3af;
+//           cursor: not-allowed;
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default Compare;
+
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';  // Import useNavigate for routing
+
+// const Visual = () => {
+//   const [inputUrl, setInputUrl] = useState('');
+//   const navigate = useNavigate();  // Initialize the navigation hook
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     // const trimmedUrl = inputUrl;
+//     // console.log(trimmedUrl);
+
+//     if (!inputUrl) {
+//       alert('Please enter a valid URL.');
+//       return;
+//     }
+
+//     // Navigate to the next page with the URL input passed in state
+//     navigate('/load_visual', { state: { request_body: inputUrl } });
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center p-4">
+//       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 border border-gray-200">
+//         <form onSubmit={handleSubmit} className="space-y-4">
+//           <div>
+//             <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
+//               Visual Analytics Generator
+//             </h2>
+//             <p className="text-sm text-center text-gray-500 mb-4">
+//               Paste a data visualization URL for instant insights
+//             </p>
+//           </div>
+
+//           <div>
+//             <textarea
+//               value={inputUrl}
+//               onChange={(e) => setInputUrl(e.target.value)}
+//               placeholder="Enter visualization URL here..."
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm text-gray-700 resize-none"
+//               rows={4}
+//               required
+//             />
+//           </div>
+
+//           <div>
+//             <button
+//               type="submit"
+//               disabled={!inputUrl.trim()}
+//               className="w-full py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+//             >
+//               Generate Visualization
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Visual;
+// // console.log('handleSubmit function called');
+// // console.log('trimmedUrl:', trimmedUrl);
+// // console.log('navigate function called with url:', trimmedUrl);

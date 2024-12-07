@@ -107,10 +107,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const Carousel = () => {
   // Sample image URLs
   const images = [
+    '/img/caros0.png',
+    '/img/caros1.png',
+    '/img/caros2.png',
     '/img/caro1.jpg',
-    '/img/procomp.jpg',
-    '/img/caro2.jpeg',
-    '/img/caro3.webp',
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -141,7 +141,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-8xl mx-auto h-[500px] overflow-hidden">
+    <div className="relative w-full max-w-8xl mx-auto h-[70vh] overflow-hidden">
       {/* Navigation buttons */}
       <button
         onClick={goToPrevious}

@@ -76,22 +76,22 @@ const Chatbot = () => {
                 src="/img/gattu.jpg" 
                 alt="Chatbot Avatar" 
                 style={{
-                  width: '70px', 
-                  height: '70px', 
+                  width: '60px', 
+                  height: '60px', 
                   objectFit: 'cover', 
                   borderRadius: '50%', 
                   background: 'linear-gradient(145deg, #e0e0e0, #ffffff)', 
                   boxShadow: '4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff', 
-                  border: '2px solid blue'
+                  // border: '2px solid blue'
                 }}
               />
             ) : (
                 <div 
-  style={{
-    perspective: '800px', // Creates 3D perspective
-    display: 'inline-block', // Aligns with the avatar
-  }}
->
+              style={{
+                perspective: '800px', // Creates 3D perspective
+                display: 'inline-block', // Aligns with the avatar
+              }}
+            >
             <img 
                 src="/img/gattu.jpg" 
                 alt="Chatbot Avatar" 
@@ -138,8 +138,8 @@ const Chatbot = () => {
                   id="query"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="What would you like to know?"
+                  className=" text-black w-full px-3 py-2 border border-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="What would you like to know?"//entering query colour
                 />
               </div>
 

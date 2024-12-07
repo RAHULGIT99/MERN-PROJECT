@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import  Navfirst from './Navfirst';
 
 const Sum = () => {
   const [inputUrl, setInputUrl] = useState('');
@@ -29,7 +30,9 @@ const Sum = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+    <>
+    <Navfirst/>
+    <div className="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 p-4">
       <div className="w-full max-w-md">
         <form 
           onSubmit={handleSubmit} 
@@ -67,6 +70,7 @@ const Sum = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

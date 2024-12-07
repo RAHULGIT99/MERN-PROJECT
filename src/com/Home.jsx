@@ -21,14 +21,14 @@ const InteractiveCard = ({ section, onClick }) => {
 
   return (
     <motion.div 
-      className={`w-full h-[400px] ${section.bgColor} rounded-lg flex items-center p-8 shadow-md overflow-hidden relative`}
+      className={`w-full h-[60vh] ${section.bgColor} rounded-lg flex items-center p-8 shadow-md overflow-hidden relative`}
       whileHover={{ 
-        scale: 1.02,
+        scale: 1.01,
         transition: { duration: 0.2 }
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => onClick(section.route)}
+
     >
       <div className="w-1/2 pr-12 z-10">
         <motion.div
@@ -51,10 +51,10 @@ const InteractiveCard = ({ section, onClick }) => {
             whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             onClick={(e) => {
               e.stopPropagation(); // Prevent parent click handler
-              handleCardClick(section.route); // Navigate to the route
+              handleCardClick(section.route); // Navigating to the routes (sum,comp,vis)
             }}
           >
-            Learn More
+            Try Now
             <ArrowRight
               className={`ml-2 transition-transform ${isHovered ? 'translate-x-1' : ''}`}
               size={20}
@@ -67,11 +67,10 @@ const InteractiveCard = ({ section, onClick }) => {
         <motion.img 
           src={section.imageSrc} 
           alt={`${section.title} Showcase`} 
-          className="max-w-full max-h-full object-contain z-10 absolute"
+          className="max-w-[95vw] max-h-full object-fill z-10 absolute"
           initial={{ scale: 1 }}
           whileHover={{ 
             scale: 1,
-            rotate: 1,
             transition: { duration: 0.3 }
           }}
         />
@@ -88,6 +87,7 @@ const InteractiveCard = ({ section, onClick }) => {
           }}
         />
       </div>
+     
     </motion.div>
   );
 };
@@ -104,13 +104,6 @@ const Home = () => {
   const visualAnalyticsRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
- 
-  
-
- 
- 
-
- 
 
   const handleVideoClick = () => {
     setIsPlaying(prevState => !prevState); // Toggle play state
@@ -166,12 +159,6 @@ const Home = () => {
       route: '/visual'
     }
   ];
-
-  // const handleCardClick = (route) => {
-  //   // Navigate to the route passed in
-  //   navigate(route);
-  // };
-
   return (
     <div ref={homeRef} className="relative min-h-screen bg-gray-800 text-gray-100">
     {/* Scroll Progress Bar */}
@@ -231,6 +218,8 @@ const Home = () => {
       variants={scrollVariants}
       className="container mx-auto px-4 mt-20 mb-16"
     >
+
+
       {/* About and Video Section */}
       <div className="bg-yellow-50  {/*rounded-2xl*/}  p-7 shadow-lg flex flex-row items-center   h-[400px]" > {/*space-x-10*/}
         {/* Left Side: About Us Content */}
@@ -257,9 +246,8 @@ const Home = () => {
           <iframe
             width="100%"
             height="100%"
-            src={`https://www.youtube.com/embed/wTgrZE9RWNY?autoplay=${
-              isPlaying ? 1 : 0
-            }&start_radio=1`}
+            //https://www.youtube.com/watch?v=KyLpm0pu5_Q
+            src={`https://www.youtube.com/embed/KyLpm0pu5_Q?autoplay=${isPlaying ? 1 : 0}&start_radio=1`}
             title="YouTube video"
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -269,6 +257,8 @@ const Home = () => {
         </div>
       </div>
     </motion.section>
+
+
         {/*for the points of the service */}
       <div>
         <Points/>
@@ -294,12 +284,15 @@ const Home = () => {
         </motion.section>
       ))}
 <br/>
+
+
       </div>
     </div>
     <div>
       <FAQ/>
     </div>
     <Chatbot/>
+
 <br/>
       {/* footer */}
       <Footer  />

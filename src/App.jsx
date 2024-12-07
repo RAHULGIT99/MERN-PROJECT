@@ -13,6 +13,8 @@ import Load_visual from './pages/Load_visual';
 import Visualres from './pages/visualres';
 import Home from './com/Home';
 import First from './com/First'
+import Login from './login/Login'
+import Signup from './login/Signup';
 // import VisualShowcaseContainer from './com/exp';
 
 
@@ -47,7 +49,7 @@ function Layout() {
   return (
     <>
       {/*  Navbar based on pathname */}
-      <Nav/>
+      {loc.pathname !== '/summarize' && loc.pathname!=='/compare' &&loc.pathname!=='/visual' && loc.pathname!=='/visual'&& loc.pathname!=='/login' && loc.pathname!=='/signup' && <Nav />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/summarize" element={<Sum />} />
@@ -61,6 +63,9 @@ function Layout() {
         <Route path="/load_visual" element={<Load_visual />} />
         <Route path='/visualres' element={<Visualres/>} />
         <Route path='/first' element={<First/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<Signup/>} />
+
 
 
         </Routes>

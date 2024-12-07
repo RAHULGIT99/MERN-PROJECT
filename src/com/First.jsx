@@ -26,7 +26,7 @@ const First = () => {
         <div className="flex justify-center space-x-8">
           {/* Customer Button */}
           <button 
-          onClick={() => handleNavigate('/home')}
+          onClick={() => handleNavigate('/')}
             className={`
               relative 
               w-64 

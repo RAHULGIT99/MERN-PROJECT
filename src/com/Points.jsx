@@ -78,12 +78,13 @@ const Points = () => {
   ];
 
   return (
+
+    
     <motion.section
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="container mx-auto px-4 mb-16 perspective-1000"
-    >
+      className="container mx-auto px-4 mb-16 perspective-1000">
       <div 
         className="w-full h-[500px] bg-transparent flex items-center"
         onMouseEnter={() => setIsContainerHovered(true)}
@@ -92,8 +93,8 @@ const Points = () => {
           setHoveredPoint(null);
         }}
       >
-        <div className={`
-          w-full h-full 
+        <div className={
+          `w-full h-full 
           bg-gradient-to-br from-blue-50 to-blue-100 
           rounded-3xl 
           flex items-center 
@@ -158,13 +159,11 @@ const Points = () => {
           </div>
 
           {/* Content Area */}
-          <div className="flex-grow pl-8">
+          <div className="flex-grow pl-8 ">
             <h3 className="text-3xl font-bold text-blue-900 mb-4">Smart Shopping Companion</h3>
             <p className="text-blue-800 text-lg mb-6">
-              Revolutionize your shopping experience with AI-powered insights, 
-              comprehensive analytics, and instant comparisons.
+            shopping experience with AI-powered insights,comprehensive analytics, and instant comparisons.
             </p>
-            
             {/*Animated details*/}
             <AnimatePresence>
               {hoveredPoint !== null && (
@@ -172,8 +171,7 @@ const Points = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg"
-                >
+                  className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
                   <h4 className="font-bold text-blue-900 mb-2 text-lg">
                     {points[hoveredPoint].title}
                   </h4>
