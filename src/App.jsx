@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Home from './pages/Home';
 import Sum from './pages/Sum';
 import Compare from './pages/Compare';
 import Sumresult from './pages/Sumresult'; 
@@ -12,6 +11,9 @@ import Load_sum from './pages/Load_sum';
 import Visual from './pages/Visual';
 import Load_visual from './pages/Load_visual';
 import Visualres from './pages/visualres';
+import Home from './com/Home';
+import First from './com/First'
+// import VisualShowcaseContainer from './com/exp';
 
 
 
@@ -34,7 +36,7 @@ function App() {
   return (
     <Router>
       <Layout />
-      <Visualres data={chartData}/>
+      {/* <Visualres data={chartData}/> */}
     </Router>
   );
 }
@@ -45,7 +47,7 @@ function Layout() {
   return (
     <>
       {/*  Navbar based on pathname */}
-      {loc.pathname !== '/' && <Nav />}
+      <Nav/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/summarize" element={<Sum />} />
@@ -58,6 +60,9 @@ function Layout() {
         <Route path="/visual" element={<Visual />} />
         <Route path="/load_visual" element={<Load_visual />} />
         <Route path='/visualres' element={<Visualres/>} />
+        <Route path='/first' element={<First/>} />
+
+
         </Routes>
 
     </>

@@ -163,6 +163,7 @@
 
 // export default Compres;
 
+
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MessageCircle, X } from 'lucide-react';
@@ -175,25 +176,56 @@ const Compres = () => {
   const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [previousResponses, setPreviousResponses] = useState([]);
-
-  // Provided data to display
-  const data = `
-    The user reviews for both phones are virtually identical, highlighting the same strengths:
-    premium design, excellent camera, smooth display, powerful processor, fast charging, solid build quality, and good value.
-    Weaknesses include battery life in high-performance mode and overheating.
-
-    There is no information provided to differentiate between the two beyond the near-identical summary descriptions.
-    Therefore, based solely on the provided review summaries and the identical specifications (from the product information provided),
-    it's impossible to definitively say which phone is "best."
-
-    More detailed and specific reviews would be needed to make a proper comparison.
-  `;
+  const result = state?.result;
+  const parsedResult = result ? JSON.parse(result) : null;
 
   useEffect(() => {
-    if (state?.result) {
-      setResponse(state.result); // Set the fetched data in the response state
+    if (result) {
+      setResponse(result); 
     }
-  }, [state]);
+  }, [result]);
+
+  const formatTextWithBold = (text) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+      .replace(/\n/g, '<br/>'); 
+  };
+
+  const limitWords = (text, limit = 500) => {
+    const words = text.split(/\s+/);
+    if (words.length > limit) {
+      return words.slice(0, limit).join(' ') + '... (Response truncated)';
+    }
+    return text;
+  };
+
+  const handleQuerySubmit = async (e) => {
+    e.preventDefault();
+
+    if (!query.trim()) return;
+
+    setIsLoading(true);
+    setResponse("");
+
+    try {
+      const res = await axios.post(`http://127.0.0.1:5888/query`, { query });
+
+      const limitedResponse = limitWords(res.data.response);
+
+      setPreviousResponses((prev) => [
+        { query, response: limitedResponse },
+        ...prev,
+      ]);
+
+      setResponse(limitedResponse);
+    } catch (error) {
+      console.error("Error fetching chatbot response:", error);
+      setResponse("Oops! Something went wrong. Please try again later.");
+    } finally {
+      setIsLoading(false);
+      setQuery(""); 
+    }
+  };
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
@@ -202,25 +234,28 @@ const Compres = () => {
   return (
     <div className="relative">
       {/* Product Comparison Result Card */}
-      <div className="absolute inset-x-0 top-1/4 mx-auto w-2/3 bg-white p-8 rounded-lg border border-gray-300 shadow-lg">
-        <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">
+      <div className="absolute inset-x-0 top-1/4 mx-auto w-2/3 bg-blue-50 p-6 rounded-lg border border-blue-200 shadow-md">
+        <h3 className="text-lg font-bold text-blue-600 mb-4 text-center">
           Product Comparison Result
         </h3>
-
-        <div className="text-gray-700 leading-relaxed space-y-4">
-          <p>
-            <strong>Summary of Strengths:</strong> Premium design, excellent camera, smooth display, powerful processor, fast charging, solid build quality, and good value.
+        {parsedResult ? (
+          <div>
+            {/* Display parsed result data */}
+            {Object.entries(parsedResult).map(([key, value]) => (
+              <div key={key} className="mb-6">
+                <h2 className="text-xl font-semibold mb-2">{key}</h2>
+                <p
+                  className="text-gray-700 whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{ __html: formatTextWithBold(value) }}
+                ></p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-red-400 text-center">
+            No data available. Please try again.
           </p>
-          <p>
-            <strong>Weaknesses:</strong> Battery life in high-performance mode and overheating.
-          </p>
-          <p>
-            There is no information to differentiate between the two phones based on the summaries and specifications. Therefore, it's not possible to determine which phone is "best."
-          </p>
-          <p>
-            More detailed and specific reviews would be required for a better comparison.
-          </p>
-        </div>
+        )}
       </div>
 
       {/* Chatbot Toggle and Modal */}
@@ -237,13 +272,7 @@ const Compres = () => {
         {isOpen && (
           <div className="absolute bottom-20 right-0 w-96 bg-white rounded-lg shadow-2xl border border-gray-200 p-6 transition-all duration-300 ease-in-out">
             {/* Chatbot Query Section */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setQuery(""); // Clear input after submission
-              }}
-              className="space-y-4"
-            >
+            <form onSubmit={handleQuerySubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="query"
@@ -305,3 +334,5 @@ const Compres = () => {
 };
 
 export default Compres;
+
+

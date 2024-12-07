@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+// File path: src/components/Load_sum.jsx
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Load_sum = () => {
   const [displayText, setDisplayText] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const location = useLocation(); // To get the URL from the previous page
+  const location = useLocation();
+  const hasRequestBeenSent = useRef(false);
+
   const facts = [
     "India's eCommerce market is expected to reach $200 billion by 2026.",
     "Around 70% of eCommerce transactions in India are made through mobile phones.",
@@ -20,76 +23,77 @@ const Load_sum = () => {
   ];
 
   useEffect(() => {
-    // Extract the URL passed from the previous page
     const request_url = location.state?.requestBody;
 
-    if (!request_url) {
-      setError('No URL received from the previous page.');
+    // Prevent multiple requests
+    if (hasRequestBeenSent.current || !request_url) {
       return;
     }
 
+    const animateText = (fact) => {
+      let currentIndex = 0;
+      const textLength = fact.length;
+      const timePerChar = 10000 / textLength;
+
+      const intervalId = setInterval(() => {
+        if (currentIndex <= textLength) {
+          setDisplayText(fact.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(intervalId);
+        }
+      }, timePerChar);
+
+      return () => clearInterval(intervalId);
+    };
+    
+    const maxWaitTime = 240000; // 240 seconds
+    const timeoutId = setTimeout(() => {
+      setError('Failed to fetch data within 240 seconds.');
+      // Reset the flag if timeout occurs
+      hasRequestBeenSent.current = false;
+    }, maxWaitTime);
+
     const selectedFact = facts[Math.floor(Math.random() * facts.length)];
-    const textLength = selectedFact.length;
-    const timePerChar = 10000 / textLength; // Distribute 10 seconds across all characters
-
-    let currentIndex = 0;
-    const intervalId = setInterval(() => {
-      if (currentIndex <= textLength) {
-        setDisplayText(selectedFact.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(intervalId);
-      }
-    }, timePerChar);
-
-    // Start a timer to track elapsed time for the fetch
-    let elapsedTime = 0;
-    const maxWaitTime = 240000; // 60 seconds timeout
-
-    const timeoutId = setInterval(() => {
-      elapsedTime += 1000; // Increment time by 1 second
-      if (elapsedTime >= maxWaitTime) {
-        setError('Failed to fetch data within 240 seconds.');
-        clearInterval(timeoutId);
-      }
-    }, 1000); // Check every second
+    const cleanupAnimation = animateText(selectedFact);
 
     const fetchData = async () => {
+      // Mark that request has been sent
+      hasRequestBeenSent.current = true;
+
       try {
-        // Send the user input URL in the correct format
-        const response = await fetch('http://127.0.0.1:5000/', {
+        const response = await fetch('192.168.219.22:5000/', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ request_url: request_url }), // Sending user input as URL
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ request_url }),
         });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
 
         const data = await response.json();
         if (data) {
-          clearInterval(timeoutId); // Clear the timeout when response is received
-          navigate('/sumresult', { state: { result: JSON.stringify(data) } }); // Navigate with the result
+          navigate('/sumresult', { state: { result: JSON.stringify(data) } });
         } else {
           throw new Error('No valid data received from server.');
         }
       } catch (err) {
         setError('An error occurred while fetching data.');
-        console.error('Error fetching data:', err);
-        clearInterval(timeoutId); // Clear the timeout if there's an error
+        // Reset the flag if request fails
+        hasRequestBeenSent.current = false;
       }
     };
+
+    
 
     fetchData();
 
     return () => {
-      clearInterval(intervalId); // Clean up the text display interval
-      clearInterval(timeoutId); // Clean up the timeout interval
+      cleanupAnimation();
+      clearTimeout(timeoutId);
     };
-  }, [location.state?.url, navigate]); // Use the URL passed from the previous page
+  }, [location.state?.requestBody, navigate, facts]);
+
+
 
   const generateCubes = () => {
     const cubes = [];
