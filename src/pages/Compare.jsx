@@ -18,10 +18,41 @@ const Compare = () => {
 
     console.log(requestBody); // Log requestBody for debugging
 
+    // try {
+    //   // Validate URL format (optional but recommended)
+    //   new URL(url1);
+    //   new URL(url2);
+
+    //   navigate('/load_sum', { 
+    //     state: { 
+    //       requestBody: { url1 } 
+    //     } 
+    //   });
+    // } catch (error) {
+    //   alert('Please enter a valid URL format.');
+    // }
+    try {
+      // Validate URL format for both URLs
+      new URL(requestBody.url1);
+      new URL(requestBody.url2);
+  
+      // Navigate with the full requestBody in state
+      navigate('/load_com', { 
+        state: { requestBody } 
+      });
+    } catch (error) {
+      // Identify invalid input and provide specific feedback
+      if (!product1 || !product2) {
+        alert('Both URLs are required.');
+      } else {
+        alert('Please enter valid URL formats for the products.');
+      }
+    }
+
     // Navigate to results page with JSON data
-    navigate('/load_com', {
-      state: requestBody,
-    });
+    // navigate('/load_com', {
+    //   state: requestBody,
+    // });
   };
 
   return (

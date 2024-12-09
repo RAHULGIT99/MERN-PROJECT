@@ -1,13 +1,161 @@
 // File path: src/components/Load_sum.jsx
-import React, { useState, useEffect, useRef } from 'react';
+// import React, { useState, useEffect, useRef } from 'react';
+// import { useNavigate, useLocation } from 'react-router-dom';
+
+// const Load_sum = () => {
+//   const [displayText, setDisplayText] = useState('');
+//   const [error, setError] = useState('');
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const hasRequestBeenSent = useRef(false);
+
+//   const facts = [
+//     "India's eCommerce market is expected to reach $200 billion by 2026.",
+//     "Around 70% of eCommerce transactions in India are made through mobile phones.",
+//     "India has over 900 million internet users, making it one of the largest markets for eCommerce.",
+//     "The number of online shoppers in India reached around 150 million in 2023.",
+//     "Fashion and apparel is the largest category in Indian eCommerce, followed by electronics and groceries.",
+//     "Digital payments, including UPI and wallets, are rapidly growing in India, making online shopping more accessible.",
+//     "Flipkart and Amazon dominate the Indian eCommerce market, followed by Myntra, Snapdeal, and BigBasket.",
+//     "Tier 2 and Tier 3 cities are increasingly adopting eCommerce, contributing to the market's growth.",
+//     "The Digital India initiative has boosted cashless transactions and increased online shopping adoption.",
+//     "By 2025, rural India is expected to contribute 30-35% of the total online shoppers in India.",
+//   ];
+
+  // useEffect(() => {
+  //   const request_url = location.state?.requestBody;
+
+  //   // Prevent multiple requests
+  //   if (hasRequestBeenSent.current || !request_url) {
+  //     return;
+  //   }
+
+  //   const animateText = (fact) => {
+  //     let currentIndex = 0;
+  //     const textLength = fact.length;
+  //     const timePerChar = 10000 / textLength;
+
+  //     const intervalId = setInterval(() => {
+  //       if (currentIndex <= textLength) {
+  //         setDisplayText(fact.slice(0, currentIndex));
+  //         currentIndex++;
+  //       } else {
+  //         clearInterval(intervalId);
+  //       }
+  //     }, timePerChar);
+
+  //     return () => clearInterval(intervalId);
+  //   };
+    
+  //   const maxWaitTime = 240000; // 240 seconds
+  //   const timeoutId = setTimeout(() => {
+  //     setError('Failed to fetch data within 240 seconds.');
+  //     // Reset the flag if timeout occurs
+  //     hasRequestBeenSent.current = false;
+  //   }, maxWaitTime);
+
+  //   const selectedFact = facts[Math.floor(Math.random() * facts.length)];
+  //   const cleanupAnimation = animateText(selectedFact);
+
+  //   const fetchData = async () => {
+  //     // Mark that request has been sent
+  //     hasRequestBeenSent.current = true;
+
+  //     try {
+  //       const response = await fetch('http://127.0.0.1:5000/', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ request_url }),
+  //       });
+
+  //       if (!response.ok) throw new Error('Network response was not ok');
+
+  //       const data = await response.json();
+  //       if (data) {
+  //         navigate('/sumresult', { state: { result: JSON.stringify(data) } });
+  //       } else {
+  //         throw new Error('No valid data received from server.');
+  //       }
+  //     } catch (err) {
+  //       setError('An error occurred while fetching data.');
+  //       // Reset the flag if request fails
+  //       hasRequestBeenSent.current = false;
+  //     }
+  //   };
+
+    
+
+  //   fetchData();
+
+  //   return () => {
+  //     cleanupAnimation();
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [location.state?.requestBody, navigate, facts]);
+
+  // useEffect(() => {
+  //   const request_url = location.state?.requestBody;
+
+  //   // Prevent multiple requests
+  //   if (hasRequestBeenSent.current || !request_url) {
+  //     return;
+  //   }
+
+  //   const maxWaitTime = 240000; // 240 seconds
+  //   const timeoutId = setTimeout(() => {
+  //     setError('Failed to fetch data within 240 seconds.');
+  //     hasRequestBeenSent.current = false;
+  //   }, maxWaitTime);
+
+  //   // Select a random fact and display it immediately
+  //   const selectedFact = facts[Math.floor(Math.random() * facts.length)];
+  //   setDisplayText(selectedFact);
+
+  //   const fetchData = async () => {
+  //     hasRequestBeenSent.current = true;
+
+  //     try {
+  //       const response = await fetch('http://127.0.0.1:5000/', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ request_url }),
+  //       });
+
+  //       if (!response.ok) throw new Error('Network response was not ok');
+
+  //       const data = await response.json();
+  //       if (data) {
+  //         navigate('/sumresult', { state: { result: JSON.stringify(data) } });
+  //       } else {
+  //         throw new Error('No valid data received from server.');
+  //       }
+  //     } catch (err) {
+  //       setError('An error occurred while fetching data.');
+  //       hasRequestBeenSent.current = false;
+  //     }
+  //   };
+
+  //   fetchData();
+
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [location.state?.requestBody, navigate, facts]);
+
+
+  //exp
+
+  import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Load_sum = () => {
   const [displayText, setDisplayText] = useState('');
+  const [currentFactIndex, setCurrentFactIndex] = useState(0);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const hasRequestBeenSent = useRef(false);
+  const typingTimeout = useRef(null);
 
   const facts = [
     "India's eCommerce market is expected to reach $200 billion by 2026.",
@@ -22,43 +170,41 @@ const Load_sum = () => {
     "By 2025, rural India is expected to contribute 30-35% of the total online shoppers in India.",
   ];
 
+  const typeFact = (fact) => {
+    let currentIndex = 0;
+    const textLength = fact.length;
+    const timePerChar = 100; // Time per character in ms
+
+    const typeChar = () => {
+      if (currentIndex <= textLength) {
+        setDisplayText(fact.slice(0, currentIndex));
+        currentIndex++;
+        typingTimeout.current = setTimeout(typeChar, timePerChar);
+      } else {
+        // After typing, wait for 2 seconds and show the next fact
+        setTimeout(() => {
+          setCurrentFactIndex((prevIndex) => (prevIndex + 1) % facts.length);
+        }, 3000);
+      }
+    };
+
+    typeChar();
+  };
+
   useEffect(() => {
     const request_url = location.state?.requestBody;
 
-    // Prevent multiple requests
     if (hasRequestBeenSent.current || !request_url) {
       return;
     }
 
-    const animateText = (fact) => {
-      let currentIndex = 0;
-      const textLength = fact.length;
-      const timePerChar = 10000 / textLength;
-
-      const intervalId = setInterval(() => {
-        if (currentIndex <= textLength) {
-          setDisplayText(fact.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          clearInterval(intervalId);
-        }
-      }, timePerChar);
-
-      return () => clearInterval(intervalId);
-    };
-    
     const maxWaitTime = 240000; // 240 seconds
     const timeoutId = setTimeout(() => {
       setError('Failed to fetch data within 240 seconds.');
-      // Reset the flag if timeout occurs
       hasRequestBeenSent.current = false;
     }, maxWaitTime);
 
-    const selectedFact = facts[Math.floor(Math.random() * facts.length)];
-    const cleanupAnimation = animateText(selectedFact);
-
     const fetchData = async () => {
-      // Mark that request has been sent
       hasRequestBeenSent.current = true;
 
       try {
@@ -78,21 +224,22 @@ const Load_sum = () => {
         }
       } catch (err) {
         setError('An error occurred while fetching data.');
-        // Reset the flag if request fails
         hasRequestBeenSent.current = false;
       }
     };
 
-    
-
     fetchData();
 
     return () => {
-      cleanupAnimation();
       clearTimeout(timeoutId);
+      clearTimeout(typingTimeout.current);
     };
-  }, [location.state?.requestBody, navigate, facts]);
+  }, [location.state?.requestBody, navigate]);
 
+  useEffect(() => {
+    typeFact(facts[currentFactIndex]);
+    return () => clearTimeout(typingTimeout.current); // Cleanup timeout on unmount
+  }, [currentFactIndex]);
 
 
   const generateCubes = () => {

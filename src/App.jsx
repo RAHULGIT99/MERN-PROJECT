@@ -23,17 +23,17 @@ import Signup from './login/Signup';
 function App() {
   const [chartData, setChartData] = useState(null);
 
-  useEffect(() => {
-    // Fetch JSON data from the API endpoint
-    fetch('http://127.0.0.1:5005/get-data')
-      .then((response) => response.json())
-      // .then((data) => setChartData(data))
-      .then((data) => {
-        console.log('Fetched Data:', data); // Log fetched data
-        setChartData(data);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-},[]);
+//   useEffect(() => {
+//     // Fetch JSON data from the API endpoint
+//     fetch('http://127.0.0.1:5005/get-data')
+//       .then((response) => response.json())
+//       // .then((data) => setChartData(data))
+//       .then((data) => {
+//         console.log('Fetched Data:', data); // Log fetched data
+//         setChartData(data);
+//       })
+//       .catch((error) => console.error('Error fetching data:', error));
+// },[]);
 
   return (
     <Router>
@@ -49,7 +49,7 @@ function Layout() {
   return (
     <>
       {/*  Navbar based on pathname */}
-      {loc.pathname !== '/summarize' && loc.pathname!=='/compare' &&loc.pathname!=='/visual' && loc.pathname!=='/visual'&& loc.pathname!=='/login' && loc.pathname!=='/signup' && <Nav />}
+      {loc.pathname !== '/summarize' && loc.pathname!=='/compare' &&loc.pathname!=='/visual' && loc.pathname!=='/'&& loc.pathname!=='/login' && loc.pathname!=='/signup' && loc.pathname !== '/load_sum' && loc.pathname !== '/load_com' && loc.pathname !== '/load_visual' &&  <Nav />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/summarize" element={<Sum />} />
