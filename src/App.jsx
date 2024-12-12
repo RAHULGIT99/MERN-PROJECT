@@ -15,6 +15,7 @@ import Home from './com/Home';
 import First from './com/First'
 import Login from './login/Login'
 import Signup from './login/Signup';
+import Main from './pages/katre';
 // import VisualShowcaseContainer from './com/exp';
 
 
@@ -65,6 +66,8 @@ function Layout() {
         <Route path='/first' element={<First/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
+        <Route path='/dov' element={<Main/>} />
+
 
 
 

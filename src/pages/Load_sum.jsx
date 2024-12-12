@@ -184,7 +184,7 @@ const Load_sum = () => {
         // After typing, wait for 2 seconds and show the next fact
         setTimeout(() => {
           setCurrentFactIndex((prevIndex) => (prevIndex + 1) % facts.length);
-        }, 3000);
+        }, 2000);
       }
     };
 
@@ -201,6 +201,7 @@ const Load_sum = () => {
     const maxWaitTime = 240000; // 240 seconds
     const timeoutId = setTimeout(() => {
       setError('Failed to fetch data within 240 seconds.');
+      navigate('summarize')
       hasRequestBeenSent.current = false;
     }, maxWaitTime);
 

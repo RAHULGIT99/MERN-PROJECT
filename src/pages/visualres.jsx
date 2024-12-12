@@ -143,6 +143,7 @@ const Visualres = () => {
       {/* Bar Chart Section */}
       <div style={{ textAlign: 'center' }}>
         <h3>Bar Chart</h3>
+        <div className='mb-30px'>
         <BarChart
           width={700}
           height={400}
@@ -150,6 +151,13 @@ const Visualres = () => {
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="name" 
+              angle={-45} 
+              textAnchor="end"
+              interval={0}
+              height={60}
+            />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
@@ -161,7 +169,9 @@ const Visualres = () => {
             animationDuration={2000}
             animationEasing="ease-out"
           />
-        </BarChart>
+        </BarChart >
+        </div>
+        <br/>
         <p>The bar chart illustrates the performance of different aspects</p>
       </div>
 
@@ -189,6 +199,7 @@ const Visualres = () => {
             ))}
           </Pie>
         </PieChart>
+        <Legend />
         <p>The pie chart showing satisfaction levels of Users</p>
       </div>
     </div>

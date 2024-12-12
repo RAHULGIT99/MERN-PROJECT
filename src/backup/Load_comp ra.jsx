@@ -604,3 +604,154 @@ export default Load_comp;
 // };
 
 // export default Sumresult;
+
+
+// import React, { useState, useEffect, useRef } from 'react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+
+// const Load_visual = () => {
+//   const location = useLocation();
+//   const navigate = useNavigate();
+//   const [error, setError] = useState(null);
+//   const requestSentRef = useRef(false);
+
+//   // Dino Game State
+//   const dinoRef = useRef();
+//   const cactusRef = useRef();
+//   const [score, setScore] = useState(0);
+//   const [highScore, setHighScore] = useState(() => {
+//     return parseInt(localStorage.getItem('dinoHighScore') || '0');
+//   });
+
+//   const jump = () => {
+//     if (!!dinoRef.current && !dinoRef.current.classList.contains("jump")) {
+//       dinoRef.current.classList.add("jump");
+//       setTimeout(() => {
+//         dinoRef.current.classList.remove("jump");
+//       }, 300);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const isAlive = setInterval(() => {
+//       const dinoTop = parseInt(
+//         getComputedStyle(dinoRef.current).getPropertyValue("top")
+//       );
+//       let cactusLeft = parseInt(
+//         getComputedStyle(cactusRef.current).getPropertyValue("left")
+//       );
+
+//       if (cactusLeft < 40 && cactusLeft > 0 && dinoTop >= 140) {
+//         if (score > highScore) {
+//           setHighScore(score);
+//           localStorage.setItem('dinoHighScore', score.toString());
+//         }
+        
+//         alert(`Game Over! Your Score: ${score}\nHigh Score: ${Math.max(score, highScore)}`);
+//         setScore(0);
+//       } else {
+//         setScore(prevScore => prevScore + 1);
+//       }
+//     }, 10);
+
+//     return () => clearInterval(isAlive);
+//   }, [score, highScore]);
+
+//   useEffect(() => {
+//     document.addEventListener("keydown", jump);
+//     return () => document.removeEventListener("keydown", jump);
+//   }, []);
+
+//   // Existing fetch data logic
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         requestSentRef.current = true;
+//         const controller = new AbortController();
+//         const timeoutId = setTimeout(() => controller.abort(), 210000);
+        
+//         const response = await fetch('http://127.0.0.1:5000/get-data', {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify({ request_url: location.state.request_url }),
+//           signal: controller.signal
+//         });
+
+//         clearTimeout(timeoutId);
+
+//         if (!response.ok) {
+//           throw new Error(`Failed to fetch visualization data. Server returned ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         let reviewSummary = typeof data.review_summary === 'string' 
+//           ? JSON.parse(data.review_summary)
+//           : data.review_summary;
+
+//         navigate('/visualres', { 
+//           state: { 
+//             serverData: { review_summary: reviewSummary },
+//             timestamp: new Date().getTime()
+//           } 
+//         });
+//       } catch (err) {
+//         console.error('Error details:', err);
+//         setError(err.name === 'AbortError' 
+//           ? 'Request timed out after 210 seconds. The server might be busy, please try again.'
+//           : `Failed to fetch visualization data: ${err.message}`
+//         );
+//       }
+//     };
+
+//     if (!requestSentRef.current) {
+//       fetchData();
+//     }
+//   }, [location.state, navigate]);
+
+//   if (error) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+//         <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full text-center">
+//           <h2 className="text-xl font-semibold text-red-600 mb-4">Error</h2>
+//           <p className="text-gray-700 mb-6">{error}</p>
+//           <button
+//             onClick={() => {
+//               requestSentRef.current = false;
+//               setError(null);
+//               navigate('/visual');
+//             }}
+//             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+//           >
+//             Try Again
+//           </button>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 overflow-hidden">
+//       <div className="w-full max-w-lg p-8 text-center relative">
+//         <div className="game relative w-full h-64 overflow-hidden bg-gray-100 mb-6">
+//           <div className="score absolute top-2 left-2 text-xl font-bold">
+//             Score: {score} | High Score: {highScore}
+//           </div>
+//           <div 
+//             id="dino" 
+//             ref={dinoRef} 
+//             className="absolute bottom-10 left-20 w-16 h-16 bg-black"
+//           ></div>
+//           <div 
+//             id="cactus" 
+//             ref={cactusRef} 
+//             className="absolute bottom-10 right-0 w-10 h-16 bg-green-500"
+//           ></div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Load_visual;
