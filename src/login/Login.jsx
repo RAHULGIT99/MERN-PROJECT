@@ -1,45 +1,67 @@
 import React, { useState } from 'react';
 import { Lock, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
-    
-    // Email validation
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = 'Email is invalid';
     }
 
-    // Password validation
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (validateForm()) {
-      // Here you would typically handle login logic
-      // For now, we'll just log the credentials
-      console.log('Login attempted with:', { email, password });
-      alert('Login submitted! (Check console for details)');
+      try {
+        const response = await fetch('http://localhost:4000/signin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email.toLowerCase(), // Convert email to lowercase
+            password
+          })
+        });
+
+        const data = await response.json();
+        console.log("Login response:", data);
+
+        if (response.ok && data.success) {
+          // Store token and user info in localStorage
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userRole', data.user.Role);
+          localStorage.setItem('userEmail', data.user.Email);
+          
+          // Redirect to home page
+          navigate('/');
+        } else {
+          alert(data.message || 'Login failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An unexpected error occurred');
+      }
     }
   };
 
   return (
-    //<div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex flex-col items-center justify-center p-4 overflow-hidden">
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900 px-4">
       <div className="bg-neutral-900 p-8 rounded-xl shadow-2xl w-full max-w-md border border-neutral-700">
         <div className="text-center mb-6">

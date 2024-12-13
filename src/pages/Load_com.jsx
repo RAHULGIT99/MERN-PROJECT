@@ -255,9 +255,10 @@ const Load_com = () => {
     hasInitialized.current = true; // Mark as initialized
 
     const request_url = location.state;
+    console.log("recieved data", request_url);
     if (!request_url || !request_url.url1 || !request_url.url2 || !request_url.spec) {
-      setError('Invalid input received. Please check the provided data.');
-      return;
+      // setError('Invalid input received. Please check the provided data.');
+      // return;
     }
 
 

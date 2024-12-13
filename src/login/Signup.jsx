@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock } from 'lucide-react';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('customer'); // Default role
   const [errors, setErrors] = useState({
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validation logic
@@ -24,15 +28,45 @@ const Signup = () => {
       password: !password ? 'Password is required' : 
                 password.length < 8 ? 'Password must be at least 8 characters' : '',
       confirmPassword: !confirmPassword ? 'Please confirm your password' :
-                       password !== confirmPassword ? 'Passwords do not match' : ''
+                       password !== confirmPassword ? 'Passwords do not match' : '',
+      role: !role ? 'Please select a role' : ''
     };
 
     setErrors(newErrors);
 
     // If no errors, proceed with signup
     if (Object.values(newErrors).every(error => error === '')) {
-      console.log('Signup attempted', { username, email, password });
-      // Add actual signup logic here
+      try {
+        // First, generate OTP
+        const generateOtpResponse = await fetch('http://localhost:4000/generate-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            Email: email
+          })
+        });
+
+        if (generateOtpResponse.ok) {
+          // If OTP generation is successful, prepare user info
+          const info = {
+            Name: username,
+            Email: email,
+            Password: password,
+            Role: role
+          };
+
+          // Navigate to OTP verification page with user info
+          navigate('/otp', { state: { info } });
+        } else {
+          const errorData = await generateOtpResponse.json();
+          alert(errorData.message || 'Error generating OTP');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An unexpected error occurred');
+      }
     }
   };
 
@@ -149,13 +183,44 @@ const Signup = () => {
             </div>
           </div>
 
+          {/* Role Selection Radio Buttons */}
+          <div className="flex justify-center space-x-6">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                id="customer"
+                name="role"
+                value="customer"
+                checked={role === 'customer'}
+                onChange={(e) => setRole(e.target.value)}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-neutral-700 bg-neutral-800"
+              />
+              <label htmlFor="customer" className="ml-2 text-sm text-neutral-300">
+                Customer
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                type="radio"
+                id="seller"
+                name="role"
+                value="seller"
+                checked={role === 'seller'}
+                onChange={(e) => setRole(e.target.value)}
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-neutral-700 bg-neutral-800"
+              />
+              <label htmlFor="seller" className="ml-2 text-sm text-neutral-300">
+                Seller
+              </label>
+            </div>
+          </div>
+
           <div>
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-700 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Sign Up
-              <a href="/first" className="font-medium text-blue-500 hover:text-blue-400"></a>
             </button>
           </div>
         </form>

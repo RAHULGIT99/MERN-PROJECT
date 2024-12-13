@@ -8,23 +8,31 @@ const Sum = () => {
   const [userLink, setUserLink] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     const trimmedUrl = inputUrl.trim();
-
-
-    // const handleInputChange = (e) => {
-    //   setUserLink(e.target.value);
-    // };
 
     if (!trimmedUrl) {
       alert('Please enter a valid product URL.');
       return;
     }
 
-    try {
-      // Validate URL format (optional but recommended)
-      new URL(trimmedUrl);
+    const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('userRole');
 
+    if (!token) {
+      alert('Please login to continue');
+      navigate('/login');
+      return;
+    }
+
+    if (userRole?.toLowerCase() === 'seller') {
+      alert('Sorry, only customers can access the summarizer feature. Sellers can access the visual analytics feature.');
+      // navigate('/');
+      return;
+    }
+
+    try {
+      new URL(trimmedUrl);
       navigate('/load_sum', { 
         state: { 
           requestBody: { url: trimmedUrl } 
@@ -495,8 +503,3 @@ export default Sum;
 // };
 
 // export default Sumresult;
-
-
-
-
-
