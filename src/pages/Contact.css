@@ -1,0 +1,76 @@
+/* src/pages/Contact.css */
+.contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form div {
+    margin-bottom: 15px;
+    display: flex; /* Add this to create a flex container */
+    align-items: center; /* Center items vertically */
+  }
+  
+  .contact-form label {
+    margin-right: 10px; /* Space between label and input */
+    font-weight: bold;
+    width: 100px; /* Fixed width for labels to align uniformly */
+    text-align: right; /* Align label text to the right */
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+
+  
+  
+  .contact-form button {
+    background-color: #4CAF50;
+    /* background-color: red; */
+
+    color: white;
+    width: 30%;
+    padding:10px;
+    margin: 0 auto ;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .contact-form button:hover {
+    background-color: #45a049;
+  }
+  
+  .social-media {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .social-media li {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  .social-media a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1.5rem; /* Adjust size as needed */
+  }
+  
+  .social-media a:hover {
+    color: #4CAF50; /* Change color on hover */
+  }
+  
